@@ -44,7 +44,7 @@ class BukuKaruResource extends Resource
                         TextInput::make('skp_title')->label('Kegiatan Identifikasi Pasien sesuai Logbook')->required(),
                         TextInput::make('kompetensi_inti')->label('Kompetensi Inti')->required(),
                         Textarea::make('skp_desc')->label('Penjelesan Kegiatan Identifikasi Pasien sesuai Logbook'),
-                        Repeater::make('sub_kompetensi_dan_kode')->label('Sub Kompetensi & Kode')->required()
+                        Repeater::make('sub_kompetensi_dan_kode')->label('Sub Kompetensi & Kode')
                             ->schema([
                                 
                                 Checkbox::make('is_d')->label('Ini Adalah Diagnosis?'),
