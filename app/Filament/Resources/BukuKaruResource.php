@@ -49,7 +49,7 @@ class BukuKaruResource extends Resource
                                 
                                 Checkbox::make('is_d')->label('Ini Adalah Diagnosis?'),
                                 TextInput::make('detail_sub_kompetensi'),
-                                Select::make('tingkat_kemapuan_vokasi')->label('Nilai Jawaban Tingkat Kemampuan Vokasi')->required()
+                                Select::make('tingkat_kemapuan_vokasi')->label('Nilai Jawaban Tingkat Kemampuan Vokasi')
                                     ->options([
                                         '4' => '4',
                                         '3' => '3',  
@@ -58,7 +58,7 @@ class BukuKaruResource extends Resource
                                         '2' => '2', 
                                         '1' => '1',      
                                     ]),
-                                Select::make('tingkat_kemapuan_ners')->label('Nilai Jawaban  Tingkat Kemampuan Ners')->required()
+                                Select::make('tingkat_kemapuan_ners')->label('Nilai Jawaban  Tingkat Kemampuan Ners')
                                     ->options([
                                         '4' => '4',
                                         '3' => '3',  
