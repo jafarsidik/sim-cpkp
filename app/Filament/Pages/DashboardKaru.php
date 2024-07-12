@@ -33,6 +33,8 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Textarea;
 
+use Filament\Notifications\Notification;
+
 class DashboardKaru extends Page implements Forms\Contracts\HasForms, Tables\Contracts\HasTable
 {
     use Forms\Concerns\InteractsWithForms;
@@ -45,6 +47,7 @@ class DashboardKaru extends Page implements Forms\Contracts\HasForms, Tables\Con
     
     public $perawat_id;
     public $simpulan;
+    public $rekomendasi;
 
     protected function getTableQuery(): Builder
     {
@@ -71,29 +74,55 @@ class DashboardKaru extends Page implements Forms\Contracts\HasForms, Tables\Con
             
             $count_skp_1 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_1'))->count();
             $avg_skp_1 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_1','jawaban_konversi'=>1))->count();
-            $persen_skp_1 = $count_skp_1 == 0 ? 0 : (($avg_skp_1/$count_skp_1)*100);
+            $persen_skp_1 = $count_skp_1 == 0 ? 0 : round(($avg_skp_1/$count_skp_1)*100);
 
             $count_skp_2 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_2'))->count();
             $avg_skp_2 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_2','jawaban_konversi'=>1))->count();
-            $persen_skp_2 = $count_skp_2 == 0 ? 0 : (($avg_skp_2/$count_skp_2)*100);
+            $persen_skp_2 = $count_skp_2 == 0 ? 0 : round(($avg_skp_2/$count_skp_2)*100);
 
             $count_skp_3 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_3'))->count();
             $avg_skp_3 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_3','jawaban_konversi'=>1))->count();
-            $persen_skp_3 = $count_skp_3 == 0 ? 0 : (($avg_skp_3/$count_skp_3)*100);
+            $persen_skp_3 = $count_skp_3 == 0 ? 0 : round(($avg_skp_3/$count_skp_3)*100);
 
             $count_skp_4 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_4'))->count();
             $avg_skp_4 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_4','jawaban_konversi'=>1))->count();
-            $persen_skp_4 = $count_skp_4 == 0 ? 0 : (($avg_skp_4/$count_skp_4)*100);
+            $persen_skp_4 = $count_skp_4 == 0 ? 0 : round(($avg_skp_4/$count_skp_4)*100);
             
             $count_skp_5 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_5'))->count();
             $avg_skp_5 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_5','jawaban_konversi'=>1))->count();
-            $persen_skp_5 = $count_skp_5 == 0 ? 0 : (($avg_skp_5/$count_skp_5)*100);
+            $persen_skp_5 = $count_skp_5 == 0 ? 0 : round(($avg_skp_5/$count_skp_5)*100);
 
             $count_skp_6 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_6'))->count();
             $avg_skp_6 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_6','jawaban_konversi'=>1))->count();
-            $persen_skp_6 = $count_skp_6 == 0 ? 0 : (($avg_skp_6/$count_skp_6)*100);
+            $persen_skp_6 = $count_skp_6 == 0 ? 0 : round(($avg_skp_6/$count_skp_6)*100);
+            
+            $nilai_simpulan = 0;
+            if($persen_skp_1 == 100){
+                $nilai_simpulan += 1;
+            }else if($persen_skp_2 == 100){
+                $nilai_simpulan += 1;
+            }else if($persen_skp_3 == 100){
+                $nilai_simpulan += 1;
+            }else if($persen_skp_4 == 100){
+                $nilai_simpulan += 1;
+            }else if($persen_skp_5 == 100){
+                $nilai_simpulan += 1;
+            }else if($persen_skp_6 == 100){
+                $nilai_simpulan += 1;
+            }
+
+            if($nilai_simpulan == 1){
+                $this->rekomendasi = 'Tingkat Kepatuhan Perawat Tidak Baik.';
+            }else if($nilai_simpulan == 2){
+                $this->rekomendasi = 'Tingkat Kepatuhan Perawat Kurang Baik.';
+            }else if($nilai_simpulan == 3){
+                $this->rekomendasi = 'Tingkat Kepatuhan Perawat Cukup Baik.';
+            }else if( ($nilai_simpulan >=4) and ($nilai_simpulan <=5) ){
+                $this->rekomendasi = 'Tingkat Kepatuhan Perawat Baik.';
+            }else if($nilai_simpulan == 6){
+                $this->rekomendasi = 'Tingkat Kepatuhan Perawat Sangat Baik.';
+            }
            
-            $this->simpulan = 'Tingkat Kepatuhan Perawat Baik. Logika bisa ditentukan Baik atau Sangat Baik lihat gambar sebelah';
         }
         return [
             Tables\Columns\TextColumn::make('id')->label('ID'),
@@ -153,8 +182,8 @@ class DashboardKaru extends Page implements Forms\Contracts\HasForms, Tables\Con
                                 ->action('search')
                         )
                         ->required()->columns(2),
-                    Textarea::make('simpulan')->default($this->simpulan)->readonly(),
-                    Textarea::make('rekomendasi'),
+                    Textarea::make('rekomendasi')->default($this->rekomendasi)->readonly(),
+                   
                     
                 ])
         ];
@@ -165,6 +194,16 @@ class DashboardKaru extends Page implements Forms\Contracts\HasForms, Tables\Con
             Action::make('evaluasi')->label('Simpan Evaluasi')
                 ->action(function () {
                     
+                    $perawat = DB::table('profil_perawats')->where('user_id', auth()->id())->first();
+                    DB::table('rekomendasis')->insert([
+                        'perawat_id' => auth()->id(),
+                        'rekomendasi' => $this->rekomendasi
+                    ]);
+                    Notification::make()
+                        ->title('Evaluasi Berhasil disimpan')
+                        ->success()
+                        ->send();
+       
                 })
         ];
     }
