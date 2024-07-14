@@ -36,7 +36,8 @@ class SelfAssesmentResource extends Resource
 
     public static function form(Form $form): Form
     {
-        
+       // DB::table('buku_karus')->select('skp_code')->groupBy('create_ate')->get();
+       
         $skp = DB::table('buku_karus')->select('skp_code')->groupBy('skp_code')->get();
         $skp_form = [];
         foreach($skp as $skp_val){

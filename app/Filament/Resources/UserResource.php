@@ -25,6 +25,12 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name'),
+                Select::make('rs')->label('Rumah Sakit')
+                ->options([
+                    'rsppn' => 'RSPPN',
+                                                  
+                ]),
+                Forms\Components\TextInput::make('rs')->label('RS'),
                 Forms\Components\TextInput::make('ruangan'),
                 Forms\Components\TextInput::make('email')->required()->email(),
                 Forms\Components\TextInput::make('password')
