@@ -10,10 +10,10 @@ class CreateProfilPerawat extends CreateRecord
 {
     protected static string $resource = ProfilPerawatResource::class;
     
-    protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        $data['user_id'] = auth()->id();
+    // protected function mutateFormDataBeforeCreate(array $data): array
+    // {
+    //     $data['user_id'] = auth()->id();
 
-        return $data;
-    }
+    //     return $data;
+    // }
 }

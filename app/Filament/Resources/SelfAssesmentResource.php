@@ -36,6 +36,7 @@ class SelfAssesmentResource extends Resource
 
     public static function form(Form $form): Form
     {
+        
         $skp = DB::table('buku_karus')->select('skp_code')->groupBy('skp_code')->get();
         $skp_form = [];
         foreach($skp as $skp_val){
@@ -71,7 +72,7 @@ class SelfAssesmentResource extends Resource
                             '3B' => '3B',
                             '3A' => '3A',
                             '2' => '2',
-                        ])->inline()->required();
+                        ])->inline();
                     }else{
                         $skp_form_fieldset_detail[] = Radio::make($skp_val->skp_code.'|K|'.$val->id.'|'.$keys)->label(new HtmlString("&nbsp;&nbsp;&nbsp; ".$detail->detail_sub_kompetensi))
                         //->extraAttributes(['style' => 'background-color: ##FE00F3; color: ##FE00F3;'])
@@ -81,7 +82,7 @@ class SelfAssesmentResource extends Resource
                             '3' => '3',
                             '2' => '2',
                             '1' => '1',
-                        ])->inline()->required();
+                        ])->inline();
                     }
                     
                 }

@@ -89,7 +89,7 @@ class BukuKaruResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-            ])
+            ],position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

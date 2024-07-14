@@ -23,6 +23,9 @@ use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\CheckboxList;
 //use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Illuminate\Support\Facades\DB;
+use Filament\Notifications\Notification;
+use Filament\Tables\Enums\ActionsPosition;
 
 class ProfilPerawatResource extends Resource 
 {
@@ -31,6 +34,10 @@ class ProfilPerawatResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = 'Profile Perawat';
+    protected static ?string $title = 'Profile Perawat';
+    protected ?string $heading = 'Profile Perawat';
+    protected ?string $subheading = 'Profile Perawat';
+    
 
     public static function form(Form $form): Form
     {
@@ -56,7 +63,7 @@ class ProfilPerawatResource extends Resource
                         'Relawan' => 'Relawan',
                         'Lainnya' => 'Lainnya'
                     ]),
-                    Select::make('is_vokasi_ners')->label('Status Keperawatan ?')
+                    Select::make('is_vokasi_ners')->label('Pendidikan ?')
                         ->options([
                         'vokasi'=>'Vokasi',
                         'ners'=>'Ners',
@@ -206,8 +213,13 @@ class ProfilPerawatResource extends Resource
                         'Ya',
                         'Tidak',
                         ]),
+                    TextInput::make('ruangan'),
                     Select::make('user_id')
                         ->label('Akun Login')
+                        ->options(User::all()->pluck('name', 'id'))
+                        ->searchable()->required(),
+                    Select::make('karu_id')
+                        ->label('Kepala Ruangan')
                         ->options(User::all()->pluck('name', 'id'))
                         ->searchable()->required(),
                     Checkbox::make('setuju')->accepted()->inline()->label('Dengan ini Saya menyatakan bahwa data yang diisi adalah dibuat dengan sebenar-benarnya. Bukti sertifikat, logbook, penilaian kinerja  dan pengajuan ini telah disetujui oleh atasan saya.')
@@ -215,7 +227,18 @@ class ProfilPerawatResource extends Resource
                 ->columns(1)
             ]);
     }
-
+    public static function getEloquentQuery(): Builder
+    {
+        $uid = DB::table('model_has_roles')->where(array('model_id'=>auth()->id()))->first();
+        if($uid->role_id == 4){
+            return parent::getEloquentQuery()->where('karu_id', auth()->id());
+        }else if($uid->role_id == 3){
+            return parent::getEloquentQuery()->where('user_id', auth()->id());
+        }else{
+            return parent::getEloquentQuery();
+        }
+        
+    }
     public static function table(Table $table): Table
     {
         return $table
@@ -231,7 +254,8 @@ class ProfilPerawatResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ])
+                Tables\Actions\DeleteAction::make(),
+            ],position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
