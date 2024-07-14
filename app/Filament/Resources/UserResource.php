@@ -30,7 +30,6 @@ class UserResource extends Resource
                     'rsppn' => 'RSPPN',
                                                   
                 ]),
-                Forms\Components\TextInput::make('rs')->label('RS'),
                 Forms\Components\TextInput::make('ruangan'),
                 Forms\Components\TextInput::make('email')->required()->email(),
                 Forms\Components\TextInput::make('password')
@@ -38,7 +37,8 @@ class UserResource extends Resource
                     ->revealable() // hide show password
                     ->required(fn (string $operation): bool => $operation === 'create')
                     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
-                    ->dehydrated(fn (?string $state): bool => filled($state)),
+                    ->dehydrated(fn (?string $state): bool => filled($state))
+                    ->required(fn (string $operation): bool => $operation === 'create'),
                // Using CheckboxList Component
                 Forms\Components\CheckboxList::make('roles')
                     ->relationship('roles', 'name')
