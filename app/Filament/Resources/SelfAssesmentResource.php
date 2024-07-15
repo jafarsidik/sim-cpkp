@@ -27,6 +27,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\HtmlString;
+use Filament\Notifications\Notification;
 
 class SelfAssesmentResource extends Resource
 {
@@ -94,21 +95,31 @@ class SelfAssesmentResource extends Resource
         
         return $form->schema($skp_form);
     }
-
+    public static function getEloquentQuery(): Builder
+    {
+        $uid = DB::table('model_has_roles')->where(array('model_id'=>auth()->id()))->first();
+        if($uid->role_id == 1){
+            return parent::getEloquentQuery()->groupBy('tanggal_self_assesment');
+            
+        }else{
+            return parent::getEloquentQuery()->where('user_id', auth()->id()->groupBy('tanggal_self_assesment'));
+        }
+        
+    }
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('tanggal_self_assesment'),
-                Tables\Columns\TextColumn::make('perawat_id'),
-                Tables\Columns\TextColumn::make('hasil'),
+                //Tables\Columns\TextColumn::make('perawat_id'),
+                //Tables\Columns\TextColumn::make('hasil'),
                 Tables\Columns\TextColumn::make('created_at'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                //Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -127,8 +138,8 @@ class SelfAssesmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\CreateSelfAssesment::route('/'),
-            //'create' => Pages\CreateSelfAssesment::route('/create'),
+            'index' => Pages\ListSelfAssesments::route('/'),
+            'create' => Pages\CreateSelfAssesment::route('/create'),
             //'edit' => Pages\EditSelfAssesment::route('/{record}/edit'),
         ];
     }

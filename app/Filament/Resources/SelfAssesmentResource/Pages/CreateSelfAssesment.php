@@ -46,6 +46,11 @@ class CreateSelfAssesment extends CreateRecord
         $datas['tanggal_self_assesment'] = Carbon::now()->toDateString();
         $datas['is_vokasi_or_ners'] =$uid->is_vokasi_ners;
         $datas['hasil'] ='Baik';
+        $recipient = auth()->user();
+        
+        Notification::make()
+            ->title('Self Assesment Sudah dilakukan')
+            ->sendToDatabase($recipient);
         // Notification::make()
         // ->title('hasil Assesment anda adalah Baik')
         // ->success()
