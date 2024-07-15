@@ -28,6 +28,7 @@ class UserResource extends Resource
                 Forms\Components\Select::make('rs')->label('Rumah Sakit')
                 ->options([
                     'rsppn' => 'RSPPN',
+                    'rsmrm' => 'RSMRM',
                                                   
                 ]),
                 Forms\Components\TextInput::make('ruangan'),
