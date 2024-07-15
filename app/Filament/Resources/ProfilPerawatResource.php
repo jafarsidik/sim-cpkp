@@ -63,7 +63,7 @@ class ProfilPerawatResource extends Resource
                         'Relawan' => 'Relawan',
                         'Lainnya' => 'Lainnya'
                     ]),
-                    Select::make('is_vokasi_ners')->label('Pendidikan ?')
+                    Select::make('is_vokasi_ners')->label('Pendidikan Terakhir')
                         ->options([
                         'vokasi'=>'Vokasi',
                         'ners'=>'Ners',
