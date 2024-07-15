@@ -48,6 +48,7 @@ class DashboardKaru extends Page implements Forms\Contracts\HasForms, Tables\Con
     public $perawat_id;
     public $simpulan;
     public $rekomendasi;
+    public $data_penilaian_rekomendasi;
 
     protected function getTableQuery(): Builder
     {
@@ -70,7 +71,7 @@ class DashboardKaru extends Page implements Forms\Contracts\HasForms, Tables\Con
         $persen_skp_5 = '';
         $persen_skp_6 = '';
         $denominator = 0;
-        if(isset($this->perawat_id)){
+        if(!empty($this->perawat_id)){
             
             $count_skp_1 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_1'))->count();
             $avg_skp_1 = DB::table('self_assesments')->where(array('perawat_id'=>$this->perawat_id,'flag_skp'=>'skp_1','jawaban_konversi'=>1))->count();
@@ -121,9 +122,19 @@ class DashboardKaru extends Page implements Forms\Contracts\HasForms, Tables\Con
                 $this->rekomendasi = 'Tingkat Kepatuhan Perawat Baik.';
             }else if($nilai_simpulan == 6){
                 $this->rekomendasi = 'Tingkat Kepatuhan Perawat Sangat Baik.';
+            }else{
+                $this->rekomendasi = '';
             }
-           
-        }
+           $this->penilaian_rekomendasi = json_encode(array(
+            //'tanggal_self_assesment'=>date(),
+            'skp_1'=>$persen_skp_1,
+            'skp_2'=>$persen_skp_2,
+            'skp_3'=>$persen_skp_3,
+            'skp_4'=>$persen_skp_4,
+            'skp_5'=>$persen_skp_5,
+            'skp_6'=>$persen_skp_6,
+           ));
+        
         return [
             Tables\Columns\TextColumn::make('id')->label('ID'),
             Tables\Columns\TextColumn::make('tanggal_self_assesment')->label('Tanggal Self Assesment'),
@@ -135,6 +146,9 @@ class DashboardKaru extends Page implements Forms\Contracts\HasForms, Tables\Con
             Tables\Columns\TextColumn::make('skp_6')->label('SKP 6')->default($persen_skp_6.'%')
             // Add more columns as needed
         ];
+        }else{
+            return [];
+        }
     }
     protected function getTableActions(): array
     {
@@ -193,12 +207,15 @@ class DashboardKaru extends Page implements Forms\Contracts\HasForms, Tables\Con
         return [
             Action::make('evaluasi')->label('Simpan Evaluasi')
                 ->action(function () {
-                    
+                    //dd($this->penilaian_rekomendasi);
                     $perawat = DB::table('profil_perawats')->where('user_id', auth()->id())->first();
                     DB::table('rekomendasis')->insert([
                         'perawat_id' => auth()->id(),
-                        'rekomendasi' => $this->rekomendasi
+                        'rekomendasi' => $this->rekomendasi,
+                        'penilaian_rekomendasi' => $this->penilaian_rekomendasi,
+                        'status_pelaporan' => 'Permohonan Rekomendasi Self Assesment Perawat Dari Karu Ke Kainstall'
                     ]);
+                    
                     Notification::make()
                         ->title('Evaluasi Berhasil disimpan')
                         ->success()

@@ -9,4 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 class Rekomendasi extends Model
 {
     use HasFactory;
+    protected $casts = [
+        'penilaian_rekomendasi' => 'array'
+    ];
 }
