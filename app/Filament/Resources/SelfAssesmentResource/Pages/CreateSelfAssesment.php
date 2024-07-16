@@ -27,23 +27,23 @@ class CreateSelfAssesment extends CreateRecord
             $skp2=1;
             $i =0;
             //dd(json_decode($skp->sub_kompetensi_dan_kode));
-            $x = json_decode($skp->sub_kompetensi_dan_kode,true);
-            foreach($x as $keys=>$detail){
+             $x = json_decode($skp->sub_kompetensi_dan_kode,true);
+             foreach($x as $keys=>$detail){
               
-                $datas['record_self_assesment'][$keys]['index'] = $key;
-                $datas['record_self_assesment'][$keys]['flag_skp'] = $explode[0];
-                $datas['record_self_assesment'][$keys]['hasil_jawaban_self_assesment'] = $val;
-                $datas['record_self_assesment'][$keys]['pertanyaan'] = $detail['detail_sub_kompetensi'];
-                $datas['record_self_assesment'][$keys]['jawaban_buku_karu_tingkat_kemapuan_vokasi'] = $detail['tingkat_kemapuan_vokasi'];
-                $datas['record_self_assesment'][$keys]['jawaban_buku_karu_tingkat_kemapuan_ners'] = $detail['tingkat_kemapuan_ners'];
+                 $datas['record_self_assesment'][$keys]['index'] = $key;
+                 $datas['record_self_assesment'][$keys]['flag_skp'] = $explode[0];
+                 $datas['record_self_assesment'][$keys]['hasil_jawaban_self_assesment'] = $val;
+                 $datas['record_self_assesment'][$keys]['pertanyaan'] = $detail['detail_sub_kompetensi'];
+                 $datas['record_self_assesment'][$keys]['jawaban_buku_karu_tingkat_kemapuan_vokasi'] = $detail['tingkat_kemapuan_vokasi'];
+                 $datas['record_self_assesment'][$keys]['jawaban_buku_karu_tingkat_kemapuan_ners'] = $detail['tingkat_kemapuan_ners'];
                
                 
-            }
+             }
             
         }
         $uid = DB::table('profil_perawats')->where(array('user_id'=>auth()->id()))->first();
         $datas['perawat_id'] = $uid->id;
-        $datas['tanggal_self_assesment'] = Carbon::now()->toDateString();
+        $datas['tanggal_self_assesment'] = date('Y-m-d');
         $datas['is_vokasi_or_ners'] =$uid->is_vokasi_ners;
         $datas['hasil'] ='Baik';
         
@@ -73,7 +73,7 @@ class CreateSelfAssesment extends CreateRecord
                     $jawaban_konversi = 0;
                 }
             }
-            if($itemData['hasil_jawaban_self_assesment'])
+            //if($itemData['hasil_jawaban_self_assesment'])
             SelfAssesment::create([
                 'perawat_id' => $data['perawat_id'],
                 'tanggal_self_assesment' => $data['tanggal_self_assesment'],
@@ -125,10 +125,10 @@ class CreateSelfAssesment extends CreateRecord
     protected function afterCreate(): void
     {
         // Runs after the form fields are saved to the database.
-        // $recipient = auth()->user();
+         $recipient = auth()->user();
         
-        // Notification::make()
-        //     ->title('Self Assesment Sudah dilakukan')
-        //     ->sendToDatabase($recipient);
+        Notification::make()
+             ->title('Self Assesment Sudah dilakukan')
+             ->sendToDatabase($recipient);
     }
 }

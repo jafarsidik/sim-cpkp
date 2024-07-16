@@ -103,6 +103,7 @@ class SelfAssesmentResource extends Resource
             
         }else{
             $perawat = DB::table('profil_perawats')->where(array('user_id'=>auth()->id()))->first();
+            
             return parent::getEloquentQuery()->where('perawat_id', $perawat->id)->groupBy('tanggal_self_assesment');
         }
         
