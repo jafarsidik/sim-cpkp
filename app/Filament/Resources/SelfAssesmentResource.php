@@ -95,17 +95,17 @@ class SelfAssesmentResource extends Resource
         
         return $form->schema($skp_form);
     }
-    public static function getEloquentQuery(): Builder
-    {
-        $uid = DB::table('model_has_roles')->where(array('model_id'=>auth()->id()))->first();
-        if($uid->role_id == 1){
-            return parent::getEloquentQuery()->groupBy('tanggal_self_assesment');
+    // public static function getEloquentQuery(): Builder
+    // {
+    //     $uid = DB::table('model_has_roles')->where(array('model_id'=>auth()->id()))->first();
+    //     if($uid->role_id == 1){
+    //         return parent::getEloquentQuery()->groupBy('tanggal_self_assesment');
             
-        }else{
-            return parent::getEloquentQuery()->where('user_id', auth()->id())->groupBy('tanggal_self_assesment');
-        }
+    //     }else{
+    //         return parent::getEloquentQuery()->where('user_id', auth()->id())->groupBy('tanggal_self_assesment');
+    //     }
         
-    }
+    // }
     public static function table(Table $table): Table
     {
         return $table
