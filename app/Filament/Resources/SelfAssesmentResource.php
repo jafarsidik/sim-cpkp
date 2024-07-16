@@ -102,7 +102,7 @@ class SelfAssesmentResource extends Resource
             return parent::getEloquentQuery()->groupBy('tanggal_self_assesment');
             
         }else{
-            return parent::getEloquentQuery()->where('user_id', auth()->id()->groupBy('tanggal_self_assesment'));
+            return parent::getEloquentQuery()->where('user_id', auth()->id())->groupBy('tanggal_self_assesment');
         }
         
     }
