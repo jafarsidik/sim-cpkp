@@ -87,11 +87,6 @@ class CreateSelfAssesment extends CreateRecord
                 'is_vokasi_or_ners' => $data['is_vokasi_or_ners'],
             ]);
         }
-        $recipient = auth()->user();
-        
-        Notification::make()
-            ->title('Self Assesment Sudah dilakukan')
-            ->sendToDatabase($recipient);
         return new SelfAssesment();
         
     }
@@ -130,5 +125,10 @@ class CreateSelfAssesment extends CreateRecord
     protected function afterCreate(): void
     {
         // Runs after the form fields are saved to the database.
+        $recipient = auth()->user();
+        
+        Notification::make()
+            ->title('Self Assesment Sudah dilakukan')
+            ->sendToDatabase($recipient);
     }
 }
