@@ -243,9 +243,10 @@ class ProfilPerawatResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('namalengkap'),
-                Tables\Columns\TextColumn::make('status_kepegawaian'),
-                Tables\Columns\TextColumn::make('asal_institusi_pendidikan_terakhir'),
+                Tables\Columns\TextColumn::make('namalengkap')->searchable(),
+                Tables\Columns\TextColumn::make('status_kepegawaian')->searchable(),
+                Tables\Columns\TextColumn::make('asal_institusi_pendidikan_terakhir')->searchable(),
+                Tables\Columns\TextColumn::make('is_vokasi_ners')->searchable(),
                 Tables\Columns\TextColumn::make('tanggal_terbit_str'),
                 Tables\Columns\TextColumn::make('tanggal_berakhir_masa_berlaku_str'),
             ])
