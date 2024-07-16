@@ -125,10 +125,10 @@ class CreateSelfAssesment extends CreateRecord
     protected function afterCreate(): void
     {
         // Runs after the form fields are saved to the database.
-        $recipient = auth()->user();
+        // $recipient = auth()->user();
         
-        Notification::make()
-            ->title('Self Assesment Sudah dilakukan')
-            ->sendToDatabase($recipient);
+        // Notification::make()
+        //     ->title('Self Assesment Sudah dilakukan')
+        //     ->sendToDatabase($recipient);
     }
 }
