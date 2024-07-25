@@ -24,6 +24,10 @@ class RekomendasiResource extends Resource
     protected static ?string $model = Rekomendasi::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Rekomendasi';
+    protected static ?string $title = 'Rekomendasi';
+    protected ?string $heading = 'Rekomendasi';
+    protected ?string $subheading = 'Rekomendasi';
 
     public static function form(Form $form): Form
     {

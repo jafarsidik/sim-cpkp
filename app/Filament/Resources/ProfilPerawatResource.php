@@ -56,12 +56,11 @@ class ProfilPerawatResource extends Resource
                     DatePicker::make('mulai_bergabung_dirumah_sakit')->label('Mulai Bergabung di Rumah Sakit'),
                     DatePicker::make('mulai_bekerja_diunit_terakhir')->label('Mulai Bekerja di Unit Terakhir'),
                     Select::make('status_kepegawaian')->label('Status Kepegawaian')->options([
-                        'Pegawai Tetap Rumah Sakit Universitas Indonesia (UI)' => 'Pegawai Tetap Rumah Sakit Universitas Indonesia (UI)',
-                        'Aparatur Sipil Negara (ASN)' => 'Aparatur Sipil Negara (ASN)',
-                        'Pegawai Universitas Indonesia (PUI)' => 'Pegawai Universitas Indonesia (PUI)',
-                        'Pegawai Tidak Tetap (PTT) RSUI' => 'Pegawai Tidak Tetap (PTT) RSUI',
-                        'Relawan' => 'Relawan',
-                        'Lainnya' => 'Lainnya'
+                        'Militer' => 'Militer',
+                        'ASN' => 'ASN',
+                        'P3K' => 'P3K',
+                        'Pegawai tidak tetap/honorer lain' => 'Pegawai tidak tetap/honorer lain',
+                        
                     ]),
                     Select::make('is_vokasi_ners')->label('Pendidikan Terakhir')
                         ->options([
