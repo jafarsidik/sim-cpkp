@@ -137,7 +137,7 @@ class PenilaianKinerjaResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('username'),
-                TextColumn::make('namalengkap')->label('Perawat'),
+                TextColumn::make('perawat_name')->label('Perawat'),
                 TextColumn::make('tanggal'),
                 TextColumn::make('nilai_1'),
                 TextColumn::make('nilai_2'),

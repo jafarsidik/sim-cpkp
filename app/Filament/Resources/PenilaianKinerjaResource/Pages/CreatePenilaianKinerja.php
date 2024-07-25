@@ -14,7 +14,9 @@ class CreatePenilaianKinerja extends CreateRecord
     protected function handleRecordCreation(array $data): PenilaianKinerja
     {
         $uniq =  uniqid();
-        foreach ($data as $key=>$itemData) {
+        
+        $datas = array_slice($data,1);
+        foreach ($datas as $key=>$itemData) {
             
             
             PenilaianKinerja::create([
@@ -23,6 +25,7 @@ class CreatePenilaianKinerja extends CreateRecord
                 'user_id'=>auth()->id(),
                 'tanggal'=>date('Y-m-d'),
                 'is_group'=>$uniq,
+                'perawat_id'=>$data['perawat_id'],
                 //$uid = DB::table('profil_perawats')->where(array('user_id'=>auth()->id()))->first();
                 //$datas['perawat_id'] = $uid->id;
              ]);
