@@ -6,6 +6,7 @@ use App\Filament\Resources\PenilaianKinerjaResource\Pages;
 use App\Filament\Resources\PenilaianKinerjaResource\RelationManagers;
 use App\Models\PenilaianKinerja;
 use App\Models\PenilaianKinerjaView;
+use App\Models\ProfilPerawat;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -40,7 +41,12 @@ class PenilaianKinerjaResource extends Resource
     {
         return $form
             ->schema([
-             
+                Fieldset::make('Perawat')->schema([
+                    Select::make('perawat_id')
+                    ->label('Perawat')
+                    ->options(ProfilPerawat::all()->pluck('namalengkap', 'id'))
+                    ->searchable()
+                ])->columns(1),
                     Fieldset::make('KOMUNIKASI')->schema([
                         Radio::make('pernyataan_a_1')->label('Selalu berkomunikasi dalam menjalankan tugas KP dengan baik kepada atasan (Karu,Ka instal dan Ka komwat)')
                         ->options(['1' => '1','2' => '2','3' => '3','4' => '4'])->columnSpan('full')->inline()->inlineLabel(false),
@@ -131,6 +137,7 @@ class PenilaianKinerjaResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('username'),
+                TextColumn::make('namalengkap')->label('Perawat'),
                 TextColumn::make('tanggal'),
                 TextColumn::make('nilai_1'),
                 TextColumn::make('nilai_2'),
@@ -146,9 +153,9 @@ class PenilaianKinerjaResource extends Resource
                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 
