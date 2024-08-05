@@ -29,6 +29,7 @@ class UserResource extends Resource
                 ->options([
                     'rsppn' => 'RSPPN',
                     'rsmrm' => 'RSMRM',
+                    'rsc' => 'RSC',
                                                   
                 ]),
                 Forms\Components\TextInput::make('ruangan'),

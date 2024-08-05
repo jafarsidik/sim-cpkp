@@ -19,5 +19,7 @@ class ProfilPerawat extends Model
         'cpd_pk_4' => 'array',
         'cpd_pk_5' => 'array',
         'setuju' => 'boolean',
+        'berlaku_seumur_hidup' => 'boolean',
     ];
 }
+

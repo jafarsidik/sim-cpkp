@@ -71,6 +71,8 @@ class ProfilPerawatResource extends Resource
                     DatePicker::make('kelulusan_tahun')->label('Kelulusan Tahun')->format('Y')->displayFormat('Y'),
                     DatePicker::make('tanggal_terbit_str')->label('Tanggal Terbit STR'),
                     DatePicker::make('tanggal_berakhir_masa_berlaku_str')->label('Tanggal Berakhir Masa Berlaku STR'),
+                    Checkbox::make('berlaku_seumur_hidup')->label('Berlaku Seumur Hidup')->inline(),
+                 
                     DatePicker::make('tanggal_terbit_sipp')->label('Tanggal Terbit SIPP'),
                     TextInput::make('jabatan_anda_saat_ini')->label('Jabatan Anda Saat Ini'),
                     Select::make('level_pk_anda_saat_ini')->label('Level PK Saat Ini')->options([

@@ -27,6 +27,7 @@ use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Grid;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\HtmlString;
 
 class PenilaianKinerjaResource extends Resource
 {
@@ -135,6 +136,14 @@ class PenilaianKinerjaResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->heading('Penilaian Kinerja')
+            ->description(new HtmlString("dengan kriteria penilaian<br><ol>
+            <li>1. Tidak dapat menjelaskan (kurang baik) ---- mempelajari ulang</li>
+            <li>2. Dapat menjelaskan namun kurang lengkap(cukup baik) ---- pembinaan</li>
+            <li>3. Dapat menyebutkan dengan lengkap(baik) ---- Ditingkatkan</li>
+            <li>4. Dapat menyebutkan dengan lengkap disertai contoh (baik sekali) ---- Dipertahankan</li>
+            </ol>
+            "))
             ->columns([
                 TextColumn::make('username'),
                 TextColumn::make('perawat_name')->label('Perawat'),
@@ -156,9 +165,10 @@ class PenilaianKinerjaResource extends Resource
                 // Tables\Actions\BulkActionGroup::make([
                 //     Tables\Actions\DeleteBulkAction::make(),
                 // ]),
-            ]);
+                ]);
+           
     }
-
+    
     public static function getRelations(): array
     {
         return [
